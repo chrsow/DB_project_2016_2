@@ -14,6 +14,8 @@
 	}
 	
 	if(isset($_POST['username']) && isset($_POST['password'])){
+		/// ===== With real_escape_string ===== ///
+		/*
 		//// SQLi Testing /////
 		//$username=mysqli_real_escape_string($_POST['username']);
 		//$password=mysqli_real_escape_string($_POST['password']);
@@ -24,6 +26,7 @@
 		$username = $_POST['username'];
 		$password = $_POST['password'];
 		
+
 		$sql = "SELECT * from user WHERE username = '$username' AND password = '$password'";
 		///////////////////////
 
@@ -43,6 +46,41 @@
 			$error = "Your Login Name or Password is invalid";
 			//echo $error;//Close to become Blind SQLi
 		}
+		*/
+
+		///===== With Prepare Statement ===== ///
+		// Create connection
+		//$conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+		try{
+			$DB_SERVER = DB_SERVER;
+			$DB_DATABASE = DB_DATABASE;
+			$pdo = new PDO("mysql:host=$DB_SERVER;dbname=$DB_DATABASE", DB_USERNAME, DB_PASSWORD);
+		}catch (PDOException $e) {
+			// Check connection
+    		echo 'Connection failed: ' . $e->getMessage();
+		}
+		 
+		// prepare and bind
+		$stmt = $pdo->prepare("SELECT * from user WHERE username = :username AND password = :password");
+		$stmt->bindParam(":username", $username);
+		$stmt->bindParam(":password", $username);
+
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+
+		//execute stmt (call the stored procedure)
+		$stmt->execute();
+	
+		//result will be checkd here
+		foreach ($stmt as $row) {
+    		// do something with $row
+				$_SESSION['login_user'] = $username;
+				header("location: user.php");
+		}	
+		
+		// let PDO know it can close the conn
+		$pdo = null;
+		
 		
 	}
 ?>
