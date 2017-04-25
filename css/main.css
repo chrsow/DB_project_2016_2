@@ -1,0 +1,58 @@
+/* Global */
+body {
+    padding: 1em;
+    margin: 25px;
+}
+
+/* Login */
+#login{
+  width: 50%;
+  margin: auto;
+  max-width:400px;
+  border-width: 2px;
+  border-style: solid;
+  padding: 50px;
+  background-color:#dadada;
+}
+
+#login img{
+  height: 120px;
+  width: 120px;
+  
+}
+
+
+/* Search Bar */
+#searchbar{
+  
+}
+
+#searchbar div{
+  width:400px;
+}
+
+/* Student Search Result */
+#student_search_result{
+  margin-top:25px;
+  max-width: 500px;
+} 
+
+tr:hover{
+  cursor:pointer;
+}
+
+/* Student Profile */
+
+#student_profile tr{
+  margin-left: 25px;
+}
+
+/* Student Grade */
+#student_grade{
+}
+
+/* Sidebar */
+#sidebar{
+  font-size: 16px;
+  /*background-color: #FF69B4;*/
+}
