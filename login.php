@@ -15,73 +15,11 @@
 	}
 	
 	if(isset($_POST['username']) && isset($_POST['password'])){
-		/// ===== With real_escape_string ===== ///
-		/*
-		//// SQLi Testing /////
-		//$username=mysqli_real_escape_string($_POST['username']);
-		//$password=mysqli_real_escape_string($_POST['password']);
-		
-		$username = playSafe($db,$_POST['username']);
-		$password = playSafe($db,$_POST['password']); 
-		
-		//$username = $_POST['username'];
-		//$password = $_POST['password'];
-		
-
-		$sql = "SELECT * from user WHERE username = '$username' AND password = '$password'";
-		///////////////////////
-
-		$result = mysqli_query($db,$sql);
-		$row =  mysqli_fetch_array($result,MYSQLI_ASSOC);
-		
-		//$active = $row['active'];		
-		
-		$count = mysqli_num_rows($result);
-
-		// If result matched $myusername and $mypassword, table row must be 1 row
-		if($count === 1) {		
-			//session_register("username"); //Depreciated 
-			$_SESSION['login_user'] = $username;
-			 
-			header("location: home.php");
-		}else {
-			$error = "Your Login Name or Password is invalid";
-			//echo $error;//Close to become Blind SQLi
+		if(isset($_POST['sqli'])){
+			include("includes/sqli_login.php");
+		}else{
+			include("includes/safe_login.php");
 		}
-		*/
-
-		///===== With Prepare Statement ===== ///
-		// Create connection
-		//$conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
-		try{
-			$DB_SERVER = DB_SERVER;
-			$DB_DATABASE = DB_DATABASE;
-			$pdo = new PDO("mysql:host=$DB_SERVER;dbname=$DB_DATABASE", DB_USERNAME, DB_PASSWORD);
-		}catch (PDOException $e) {
-			// Check connection
-    		die("Connection failed: " . $e->getMessage());
-		}
-		 
-		// prepare and bind
-		$stmt = $pdo->prepare("SELECT * FROM user WHERE username = :username AND password = :password");
-		$stmt->bindParam(":username", $username);
-		$stmt->bindParam(":password", $password);
-
-		$username = playSafe($db, $_POST['username']);
-		$password = playSafe($db, $_POST['password']);
-
-		//execute stmt (call the stored procedure if existing one)
-		$stmt->execute();
-	
-		//result will be checkd here
-		foreach ($stmt as $row) {
-    		// do something with $row
-				$_SESSION['login_user'] = $username;
-				header("location: home.php");
-		}	
-
-		// let PDO know it can close the conn
-		$pdo = null;	
 		
 	}
 ?>
@@ -89,6 +27,7 @@
 <head>
 	<link rel="stylesheet" href="css/semantic.css" type="text/css" />
 	<link rel="stylesheet" href="css/main.css" type="text/css" />
+ 	<meta charset="utf-8"/> 
 	<script
 		src="https://code.jquery.com/jquery-3.1.1.min.js"
 		integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
@@ -99,7 +38,13 @@
 		body {
 			/* background-color: #DADADA; */
 			position: center;
-			back
+			/*background-image:url("img/jiufern.jpg");
+			background-size: 100% 100%;
+    		background-repeat: no-repeat;
+			z-index: 1;
+			*/
+			background-color: #ccc;
+			z-index: 2;
 		}
 	</style>
 </head>
@@ -123,13 +68,18 @@
 			<img src="img/logo_login.png"/>
 			<form id="form" class="ui form center middle aligned" action="login.php" method="POST">
 				<div class="field">
-					<h1> Login </h1>
-					<input type="text" name="username" placeholder="Username">
+					<h3> ระบบฐานข้อมูลนิสิตจุฬา </h3>
+					<input type="text" name="username" placeholder="รหัสอาจารย์/ผุ้บริหาร/เจ้าหน้าที่">
 				</div>
 				<div class="field">
-					<input type="password" name="password" placeholder="Password">
+					<input type="password" name="password" placeholder="รหัสผ่าน">
 				</div>
-				<button class="ui button" type="submit">Login</button>
+				<button class="ui button" type="submit">เข้าสู่ระบบ</button>
+				
+				<div id="sqli_slider" class="ui fitted slider checkbox">
+					<input name="sqli" type="checkbox"><label></label>
+				</div>
+
 			</form>
 		</div>
 	</div>

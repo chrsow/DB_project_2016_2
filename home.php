@@ -5,6 +5,7 @@
 <html>
    
     <head>
+        <meta charset="utf-8" /> 
         <title>Welcome </title>
         <link rel="stylesheet" href="css/semantic.css" type="text/css" />
         <link rel="stylesheet" href="css/main.css" type="text/css" />
@@ -26,11 +27,11 @@
         <div id="sidebar" class="ui left vertical inverted labeled visible sidebar menu medium" id="sidebar">
             <a class="item" href="?page=search">
                 <i class="search icon"></i>
-                Student Search
+                รายชื่อนิสิต
             </a>
             <a class="item" href="logout.php">
                 <i class="logout icon"></i>
-                Logout
+                ออกจากระบบ
             </a>
             
         </div>

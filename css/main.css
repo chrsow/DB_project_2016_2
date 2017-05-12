@@ -1,3 +1,9 @@
+@font-face{
+  font-family: "Mitr";
+  src: url("font/Mitr-Regular.ttf");
+}
+
+
 /* Global */
 body {
     padding: 1em;
@@ -11,14 +17,31 @@ body {
   max-width:400px;
   border-width: 2px;
   border-style: solid;
+  border-color: #777;
   padding: 50px;
-  background-color:#dadada;
+  border-radius: 10px;
+  background-color: #ddd;
+  z-index: 1;
+}
+
+#login button{
+  background-color: #FAEBD7;
 }
 
 #login img{
   height: 120px;
   width: 120px;
-  
+  margin: auto;
+  margin-bottom: 10px;
+  display: block;  
+}
+
+#login h3{
+  font-family: "Mitr";
+}
+
+#sqli_slider{
+  margin:0 0 0 120;
 }
 
 
